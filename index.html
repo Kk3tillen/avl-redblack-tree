@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>avl-redblack-tree</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Visualizador de Árvore</h1>
+       
+    </div>
+
+    <div class="container">
+        <div class="controls">
+             <p>Adicione valores e veja a árvore se auto-balancear em tempo real</p>
+            <div class="input-group">
+                <input type="number" id="valueInput" placeholder="Digite um valor numérico" onkeypress="handleKeyPress(event)">
+                <button class="btn-add">➕ Adicionar</button>
+                <button class="btn-remove">➖ Remover</button>
+                <button class="btn-find">🔍 Buscar</button>
+                <button class="btn-clear">🗑️ Limpar Árvore</button>
+            </div>
+            <div id="messages"></div>
+        </div>
+
+        <div class="visualization" id="visualization">
+            <div class="empty-state">
+                <h3>Árvore Vazia</h3>
+                <p>Adicione valores para começar a visualizar a árvore AVL</p>
+            </div>
+        </div>
+    </div>
+    <div class="info-panel">
+        <div class="info-item">
+            <strong>Total de Nós:</strong> <span id="nodeCount">0</span>
+        </div>
+        <div class="info-item">
+            <strong>Altura da Árvore:</strong> <span id="treeHeight">0</span>
+        </div>
+        <div class="info-item">
+            <strong>Balanceada:</strong> <span id="balanced">Sim</span>
+        </div>
+    </div>
+</body>
+</html>
