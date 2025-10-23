@@ -1,3 +1,4 @@
+import { redBlackEnum } from "./enums/redBlackEnum.js";
 import { RBNode } from "./RBNode.js";
 
 export class RedBlackTree {
@@ -25,6 +26,7 @@ export class RedBlackTree {
       } else if (value > current.value) {
         current = current.right;
       } else {
+        console.error("Valor já existe");
         return;
       }
     }
@@ -37,16 +39,16 @@ export class RedBlackTree {
       parent.right = newNode;
     }
 
-    this.fixInsert(newNode);
+    this.afterInsert(newNode);
   }
 
-  fixInsert(node) {
-    while (node !== this.root && node.parent.isRed()) {
+  afterInsert(node) {
+    while (node !== this.root && this.isNodeRed(node.parent)) {
       if (node.parent === node.parent.parent.left) {
         const uncle = node.parent.parent.right;
 
         // Caso 1: Tio é vermelho
-        if (uncle !== null && uncle.isRed()) {
+        if (uncle !== null && this.isNodeRed(uncle)) {
           node.parent.makeBlack();
           uncle.makeBlack();
           node.parent.parent.makeRed();
@@ -66,7 +68,7 @@ export class RedBlackTree {
         const uncle = node.parent.parent.left;
 
         // Caso 1: Tio é vermelho
-        if (uncle !== null && uncle.isRed()) {
+        if (uncle !== null && this.isNodeRed(uncle)) {
           node.parent.makeBlack();
           uncle.makeBlack();
           node.parent.parent.makeRed();
@@ -86,6 +88,150 @@ export class RedBlackTree {
     }
 
     this.root.makeBlack();
+  }
+
+  delete(value) {
+    const nodeToRemove = this.search(value);
+
+    if (nodeToRemove === null) {
+      console.log("Valor não encontrado");
+      return;
+    }
+
+    let successorNode = nodeToRemove;
+    let childOfRemovedNode;
+    let colorOfRemovedNode = nodeToRemove.color;
+
+    if (nodeToRemove.left === null) {
+      childOfRemovedNode = nodeToRemove.right;
+      this.transplant(nodeToRemove, nodeToRemove.right);
+    } else if (nodeToRemove.right === null) {
+      childOfRemovedNode = nodeToRemove.left;
+      this.transplant(nodeToRemove, nodeToRemove.left);
+    } else {
+      successorNode = this.findMin(nodeToRemove.right);
+      colorOfRemovedNode = successorNode.color;
+      childOfRemovedNode = successorNode.right;
+
+      if (successorNode.parent === nodeToRemove) {
+        if (childOfRemovedNode !== null) {
+          childOfRemovedNode.parent = successorNode;
+        }
+      } else {
+        this.transplant(successorNode, successorNode.right);
+        successorNode.right = nodeToRemove.right;
+        successorNode.right.parent = successorNode;
+      }
+
+      this.transplant(nodeToRemove, successorNode);
+      successorNode.left = nodeToRemove.left;
+      successorNode.left.parent = successorNode;
+      successorNode.color = nodeToRemove.color;
+    }
+
+    if (colorOfRemovedNode === redBlackEnum.black) {
+      this.afterDelete(childOfRemovedNode);
+    }
+  }
+
+  afterDelete(node) {
+    // FIX CRÍTICO: Verificar se node não é null antes de acessar propriedades
+    while (node !== this.root && this.isNodeBlack(node)) {
+      // Se node é null, não podemos continuar
+      if (node === null) {
+        break;
+      }
+
+      if (node === node.parent.left) {
+        let brother = node.parent.right;
+
+        if (this.isNodeRed(brother)) {
+          brother.makeBlack();
+          node.parent.makeRed();
+          this.rotateLeft(node.parent);
+          brother = node.parent.right;
+        }
+
+        if (this.isNodeBlack(brother.left) && this.isNodeBlack(brother.right)) {
+          brother.makeRed();
+          node = node.parent;
+        } else {
+          if (this.isNodeBlack(brother.right)) {
+            if (brother.left !== null) {
+              brother.left.makeBlack();
+            }
+            brother.makeRed();
+            this.rotateRight(brother);
+            brother = node.parent.right;
+          }
+
+          brother.color = node.parent.color;
+          node.parent.makeBlack();
+          if (brother.right !== null) {
+            brother.right.makeBlack();
+          }
+          this.rotateLeft(node.parent);
+          node = this.root;
+        }
+      } else {
+        let brother = node.parent.left;
+
+        if (this.isNodeRed(brother)) {
+          brother.makeBlack();
+          node.parent.makeRed();
+          this.rotateRight(node.parent);
+          brother = node.parent.left;
+        }
+
+        if (this.isNodeBlack(brother.left) && this.isNodeBlack(brother.right)) {
+          brother.makeRed();
+          node = node.parent;
+        } else {
+          if (this.isNodeBlack(brother.left)) {
+            if (brother.right !== null) {
+              brother.right.makeBlack();
+            }
+            brother.makeRed();
+            this.rotateLeft(brother);
+            brother = node.parent.left;
+          }
+
+          brother.color = node.parent.color;
+          node.parent.makeBlack();
+          if (brother.left !== null) {
+            brother.left.makeBlack();
+          }
+          this.rotateRight(node.parent);
+          node = this.root;
+        }
+      }
+    }
+
+    if (node !== null) {
+      node.makeBlack();
+    }
+  }
+
+  findMin(node = this.root) {
+    while (node.left !== null) {
+      node = node.left;
+    }
+    return node;
+  }
+
+  // Método transplant renomeado e corrigido (substitui o antigo swap)
+  transplant(oldNode, newNode) {
+    if (oldNode.parent === null) {
+      this.root = newNode;
+    } else if (oldNode === oldNode.parent.left) {
+      oldNode.parent.left = newNode;
+    } else {
+      oldNode.parent.right = newNode;
+    }
+
+    if (newNode !== null) {
+      newNode.parent = oldNode.parent;
+    }
   }
 
   search(value, node = this.root) {
@@ -144,6 +290,20 @@ export class RedBlackTree {
     node.parent = leftChild;
   }
 
+  isNodeBlack(node) {
+    if (node === null) {
+      return true; // Nós null são considerados pretos
+    }
+    return node.color === redBlackEnum.black;
+  }
+
+  isNodeRed(node) {
+    if (node === null) {
+      return false;
+    }
+    return node.color === redBlackEnum.red;
+  }
+
   display(node = this.root, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -153,7 +313,7 @@ export class RedBlackTree {
       prefix +
         (isLeft ? "├── " : "└── ") +
         node.value +
-        (node.isRed() ? " (R)" : " (B)")
+        (this.isNodeRed(node) ? " (R)" : " (B)")
     );
 
     if (node.left !== null || node.right !== null) {
@@ -164,5 +324,15 @@ export class RedBlackTree {
         this.display(node.right, prefix + (isLeft ? "│   " : "    "), false);
       }
     }
+  }
+
+  // Método auxiliar para percorrer em ordem
+  inOrder(node = this.root, result = []) {
+    if (node !== null) {
+      this.inOrder(node.left, result);
+      result.push(node.value);
+      this.inOrder(node.right, result);
+    }
+    return result;
   }
 }

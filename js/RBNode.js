@@ -7,14 +7,6 @@ export class RBNode extends TreeNode {
     this.color = redBlackEnum.red
   }
 
-  isRed() {
-    return this.color === redBlackEnum.red
-  }
-
-  isBlack() {
-    return this.color === redBlackEnum.black
-  }
-
   makeRed() {
     this.color = redBlackEnum.red
   }
