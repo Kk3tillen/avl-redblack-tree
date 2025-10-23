@@ -1,8 +1,9 @@
+import { Tree } from "./tree.js";
 import { TreeNode } from "./TreeNode.js";
 
-export class AVLTree {
+export class AVLTree extends Tree {  
   constructor() {
-    this.root = null;
+    super();  
   }
 
   getHeight(node) {
@@ -102,6 +103,11 @@ export class AVLTree {
   countNodes(node = this.root) {
     if (!node) return 0;
     return 1 + this.countNodes(node.left) + this.countNodes(node.right);
+  }
+
+  countLevels(node = this.root) {
+    if (!node) return 0;
+    return node.height;
   }
 
   isBalanced(node = this.root) {

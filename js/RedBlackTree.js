@@ -1,11 +1,12 @@
+import { Tree } from "./tree.js";
 import { RBNode } from "./RBNode.js";
 
-export class RedBlackTree {
+export class RedBlackTree extends Tree {  
   constructor() {
-    this.root = null;
+    super();  
   }
 
-  insert(value) {
+  add(value) {
     const newNode = new RBNode(value);
 
     if (this.root === null) {
@@ -88,15 +89,15 @@ export class RedBlackTree {
     this.root.makeBlack();
   }
 
-  search(value, node = this.root) {
+  find(value, node = this.root) {
     if (node === null || node.value === value) {
       return node;
     }
 
     if (value < node.value) {
-      return this.search(value, node.left);
+      return this.find(value, node.left);
     } else {
-      return this.search(value, node.right);
+      return this.find(value, node.right);
     }
   }
 
