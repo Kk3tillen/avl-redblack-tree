@@ -10,10 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.getElementById("add-btn");
   const clearBtn = document.getElementById('clear-btn');
   const removeBtn = document.getElementById('remove-btn');
+  const searchBtn = document.getElementById('search-btn');
   
   addBtn.addEventListener("click", addNode);
   clearBtn.addEventListener("click", newTree);
   removeBtn.addEventListener("click", removeNode);
+  searchBtn.addEventListener("click", searchNode);
   radios.forEach((radio) =>
     radio.addEventListener("change", handleRadioChange)
   );
@@ -22,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function handleRadioChange(el) {
+  console.log(currentTree.countNodes())
   if (currentTree.countNodes() > 0) {
     if (!confirm("Os nós atuais serão perdidos. Deseja continuar ?")) {
       return;
@@ -51,6 +54,20 @@ function removeNode() {
   document.getElementById("node-input").value = "";
 }
 
+function searchNode() {
+  const value = Number(document.getElementById("node-input").value);
+  const foundNode = currentTree.find(value);
+
+  if (!foundNode) {
+    alert("Valor não encontrado");
+    return;
+  };
+
+  console.log(foundNode.value)
+
+  renderTree({ highlight: String(foundNode.value) });
+}
+
 function newTree() {
   if (selectedTree === "AVL") currentTree = new AVLTree();
   else currentTree = new RedBlackTree();
@@ -69,7 +86,7 @@ function updateStats() {
 function treeToD3(node) {
   if (!node) return null;
   const obj = {
-    name: node.value.toString(),
+    value: node.value.toString(),
     height: node.height,
     color: node.color || null,
     balance:
@@ -89,8 +106,10 @@ function setupD3() {
   return { svg, g, treeLayout};
 }
 
-function renderTree() {
+function renderTree(renderProps = {}) {
   updateStats();
+
+  console.log(renderProps)
 
   const data = treeToD3(currentTree.root);
   g.selectAll("*").remove();
@@ -124,8 +143,10 @@ function renderTree() {
 
   node
     .append("circle")
-    .attr("r", 27)
-    .attr("fill", (d) => d.data.color ? d.data.color : "#234d20");
+    .attr("r", (d) => renderProps.highlight && d.data.value === renderProps.highlight ? 32 : 27)
+    .attr("fill", (d) => d.data.color ? d.data.color : "#234d20")
+    .attr("stroke", (d) => renderProps.highlight && d.data.value === renderProps.highlight ? "#66FFFF" : null)
+    .attr("stroke-width", (d) => renderProps.highlight && d.data.value === renderProps.highlight ? 3 : 0);
     
   node
     .append("text")
@@ -133,5 +154,5 @@ function renderTree() {
     .attr("dy", "0.35em")
     .attr("fill", "white")
     .attr("font-size", "14px")
-    .text((d) => d.data.name);
+    .text((d) => d.data.value);
 }
