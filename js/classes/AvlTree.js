@@ -1,4 +1,4 @@
-import { Tree } from "./tree.js";
+import { Tree } from "./Tree.js";
 import { TreeNode } from "./TreeNode.js";
 
 export class AVLTree extends Tree {  
@@ -6,7 +6,7 @@ export class AVLTree extends Tree {
     super();  
   }
 
-  getHeight(node) {
+  getHeight(node = this.root) {
     return node ? node.height : 0;
   }
 
@@ -41,7 +41,7 @@ export class AVLTree extends Tree {
     return y;
   }
 
-  add(value) {
+  insert(value) {
     this.root = this.addRecursive(this.root, value);
     if (this.root) {
       this.root.parent = null;
@@ -98,16 +98,6 @@ export class AVLTree extends Tree {
       }
     }
     return null;
-  }
-
-  countNodes(node = this.root) {
-    if (!node) return 0;
-    return 1 + this.countNodes(node.left) + this.countNodes(node.right);
-  }
-
-  countLevels(node = this.root) {
-    if (!node) return 0;
-    return node.height;
   }
 
   isBalanced(node = this.root) {
