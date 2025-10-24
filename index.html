@@ -1,7 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" class="light">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Visualizador de Árvores</title>
@@ -9,123 +8,147 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
-    rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <script>
-    tailwind.config = {
+      tailwind.config = {
         darkMode: "class",
         theme: {
-        extend: {
+          extend: {
             colors: {
-            primary: "#234d20",
-            "bg-light": "#f0f7da",
-            "panel-light": "#ffffff",
-            "border-light": "#dfe9c6",
+              primary: "#234d20",
+              "bg-light": "#f0f7da",
+              "panel-light": "#ffffff",
+              "border-light": "#dfe9c6"
             },
             fontFamily: {
-            display: ["Space Grotesk", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"]
             },
             borderRadius: {
-            DEFAULT: "0.5rem",
-            },
-        },
-        },
-    };
+              DEFAULT: "0.5rem"
+            }
+          }
+        }
+      };
     </script>
-</head>
+  </head>
 
-<body class="bg-bg-light text-gray-900 font-display min-h-screen flex">
+  <body class="bg-bg-light text-gray-900 font-display min-h-screen flex">
     <aside
-    class="w-1/3 max-w-sm bg-panel-light border-r border-border-light p-6 flex flex-col gap-8 shadow-lg"
+      class="w-1/3 max-w-sm bg-panel-light border-r border-border-light p-6 flex flex-col gap-8 shadow-lg"
     >
-    <header>
+      <header>
         <h1 class="text-xl font-bold text-primary">Visualizador de Árvores</h1>
         <p class="text-sm text-gray-600">AVL &amp; Rubro-Negra</p>
-    </header>
+      </header>
 
-    <section class="flex flex-col gap-4">
+      <section class="flex flex-col gap-4">
         <div>
-        <p class="text-base font-medium mb-2 text-primary">Tipo de Árvore</p>
-        <div class="flex h-10 w-full rounded-lg bg-bg-light p-1 border border-border-light">
+          <p class="text-base font-medium mb-2 text-primary">Tipo de Árvore</p>
+          <div
+            class="flex h-10 w-full rounded-lg bg-bg-light p-1 border border-border-light"
+          >
             <label
-            class="flex-1 flex items-center justify-center cursor-pointer rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary/10 has-[:checked]:bg-primary has-[:checked]:text-white transition"
+              class="flex-1 flex items-center justify-center cursor-pointer rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary/10 has-[:checked]:bg-primary has-[:checked]:text-white transition"
             >
-            <span>AVL</span>
-            <input type="radio" name="tree-type" value="AVL" checked class="hidden" id="avl-radio" />
+              <span>AVL</span>
+              <input
+                type="radio"
+                name="tree-type"
+                value="AVL"
+                checked
+                class="hidden"
+                id="avl-radio"
+              />
             </label>
             <label
-            class="flex-1 flex items-center justify-center cursor-pointer rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary/10 has-[:checked]:bg-primary has-[:checked]:text-white transition"
+              class="flex-1 flex items-center justify-center cursor-pointer rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary/10 has-[:checked]:bg-primary has-[:checked]:text-white transition"
             >
-            <span>Rubro-Negra</span>
-            <input type="radio" name="tree-type" value="Red-Black" class="hidden" id="rb-radio" />
+              <span>Rubro-Negra</span>
+              <input
+                type="radio"
+                name="tree-type"
+                value="Red-Black"
+                class="hidden"
+                id="rb-radio"
+              />
             </label>
-        </div>
+          </div>
         </div>
 
         <label class="flex flex-col">
-        <p class="text-base font-medium pb-2 text-primary">Valor do nó</p>
-        <input
+          <p class="text-base font-medium pb-2 text-primary">Valor do nó</p>
+          <input
             type="number"
             placeholder="Digite um número"
             class="form-input rounded-lg border border-border-light bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-primary/40 h-12 p-3"
             id="node-input"
-        />
+          />
         </label>
-    </section>
+      </section>
 
-    <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2">
         <button
-        id="add-btn"
-        class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition"
+          id="add-btn"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition"
         >
-        <span class="material-symbols-outlined">add</span>
-        Adicionar Nó
+          <span class="material-symbols-outlined">add</span>
+          Adicionar Nó
         </button>
 
         <button
-        id="remove-btn"
-        class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
+          id="remove-btn"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
         >
-        <span class="material-symbols-outlined">remove</span>
-        Remover Nó
+          <span class="material-symbols-outlined">remove</span>
+          Remover Nó
         </button>
 
         <button
-        id="search-btn"
-        class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
+          id="search-btn"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
         >
-        <span class="material-symbols-outlined">search</span>
-        Buscar Nó
+          <span class="material-symbols-outlined">search</span>
+          Buscar Nó
         </button>
 
         <button
-        id="clear-btn"
-        class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
+          id="clear-btn"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
         >
-        <span class="material-symbols-outlined">delete</span>
-        Limpar Árvore
+          <span class="material-symbols-outlined">delete</span>
+          Limpar Árvore
         </button>
-    </div>
+      </div>
     </aside>
 
     <main class="flex-1 p-6 flex items-center justify-center bg-[#f6fbe6]">
-    <div
+      <div
         class="w-full h-full flex flex-col items-start gap-4 rounded-xl border-2 border-dashed border-border-light p-6 bg-white shadow-inner overflow-auto"
         id="visualization-area"
-    >
+      >
         <div class="flex flex-col gap-2 w-full">
-        <div class="flex gap-4 text-sm text-gray-600">
+          <div class="flex gap-4 text-sm text-gray-600">
             <span>Tipo: <strong id="tree-type-display">AVL</strong></span>
             <span>Nós: <strong id="nodes-count">0</strong></span>
             <span>Níveis: <strong id="levels-count">0</strong></span>
+          </div>
         </div>
-        </div>
-        <pre id="tree-display" class="text-sm font-mono text-gray-800 whitespace-pre">Árvore vazia - adicione nós para visualizar</pre>
-    </div>
+        <pre
+          id="tree-display"
+          class="text-sm font-mono text-gray-800 whitespace-pre"
+        >
+Árvore vazia - adicione nós para visualizar</pre
+        >
+      </div>
     </main>
 
-    <script type="module" src="./js/visualizer/TreeVisualizer.js"></script>
-
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>
