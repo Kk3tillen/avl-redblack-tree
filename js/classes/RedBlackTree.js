@@ -2,9 +2,9 @@ import { redBlackEnum } from "../enums/redBlackEnum.js";
 import { Tree } from "./Tree.js";
 import { RBNode } from "./RBNode.js";
 
-export class RedBlackTree extends Tree {  
+export class RedBlackTree extends Tree {
   constructor() {
-    super();  
+    super();
   }
 
   insert(value) {
@@ -27,7 +27,6 @@ export class RedBlackTree extends Tree {
       } else if (value > current.value) {
         current = current.right;
       } else {
-        console.error("Valor já existe");
         return;
       }
     }
@@ -300,5 +299,13 @@ export class RedBlackTree extends Tree {
       return false;
     }
     return node.color === redBlackEnum.red;
+  }
+
+  getHeight(node = this.root) {
+    if (node === null) {
+      return 0;
+    }
+
+    return 1 + Math.max(this.getHeight(node.left), this.getHeight(node.right));
   }
 }

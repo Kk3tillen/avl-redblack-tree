@@ -15,6 +15,15 @@ export class Tree {
     throw new Error('Método find() deve ser implementado');
   }
 
+  getHeight() {
+    throw new Error('Método getHeight() deve ser implementado');
+  }
+
+  countNodes(node = this.root) {
+    if (!node) return 0;
+    return 1 + this.countNodes(node.left) + this.countNodes(node.right);
+  }
+
   clear() {
     this.root = null;
   }
