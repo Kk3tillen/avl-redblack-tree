@@ -1,5 +1,5 @@
-import { redBlackEnum } from "./enums/redBlackEnum.js";
-import { Tree } from "./tree.js";
+import { redBlackEnum } from "../enums/redBlackEnum.js";
+import { Tree } from "./Tree.js";
 import { RBNode } from "./RBNode.js";
 
 export class RedBlackTree extends Tree {  
@@ -7,7 +7,7 @@ export class RedBlackTree extends Tree {
     super();  
   }
 
-  add(value) {
+  insert(value) {
     const newNode = new RBNode(value);
 
     if (this.root === null) {
@@ -91,7 +91,7 @@ export class RedBlackTree extends Tree {
     this.root.makeBlack();
   }
 
-  delete(value) {
+  remove(value) {
     const nodeToRemove = this.find(value);
 
     if (nodeToRemove === null) {
@@ -131,14 +131,12 @@ export class RedBlackTree extends Tree {
     }
 
     if (colorOfRemovedNode === redBlackEnum.black) {
-      this.afterDelete(childOfRemovedNode);
+      this.afterRemove(childOfRemovedNode);
     }
   }
 
-  afterDelete(node) {
-    // FIX CRÍTICO: Verificar se node não é null antes de acessar propriedades
+  afterRemove(node) {
     while (node !== this.root && this.isNodeBlack(node)) {
-      // Se node é null, não podemos continuar
       if (node === null) {
         break;
       }
@@ -220,7 +218,6 @@ export class RedBlackTree extends Tree {
     return node;
   }
 
-  // Método transplant renomeado e corrigido (substitui o antigo swap)
   transplant(oldNode, newNode) {
     if (oldNode.parent === null) {
       this.root = newNode;
@@ -293,7 +290,7 @@ export class RedBlackTree extends Tree {
 
   isNodeBlack(node) {
     if (node === null) {
-      return true; // Nós null são considerados pretos
+      return true;
     }
     return node.color === redBlackEnum.black;
   }
@@ -303,37 +300,5 @@ export class RedBlackTree extends Tree {
       return false;
     }
     return node.color === redBlackEnum.red;
-  }
-
-  display(node = this.root, prefix = "", isLeft = true) {
-    if (node === null) {
-      return;
-    }
-
-    console.log(
-      prefix +
-        (isLeft ? "├── " : "└── ") +
-        node.value +
-        (this.isNodeRed(node) ? " (R)" : " (B)")
-    );
-
-    if (node.left !== null || node.right !== null) {
-      if (node.left !== null) {
-        this.display(node.left, prefix + (isLeft ? "│   " : "    "), true);
-      }
-      if (node.right !== null) {
-        this.display(node.right, prefix + (isLeft ? "│   " : "    "), false);
-      }
-    }
-  }
-
-  // Método auxiliar para percorrer em ordem
-  inOrder(node = this.root, result = []) {
-    if (node !== null) {
-      this.inOrder(node.left, result);
-      result.push(node.value);
-      this.inOrder(node.right, result);
-    }
-    return result;
   }
 }

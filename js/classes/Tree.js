@@ -3,7 +3,7 @@ export class Tree {
     this.root = null;
   }
 
-  add(value) {
+  insert(value) {
     throw new Error('Método add() deve ser implementado');
   }
 

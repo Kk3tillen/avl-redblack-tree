@@ -1,4 +1,4 @@
-import { Tree } from "./tree.js";
+import { Tree } from "./Tree.js";
 import { TreeNode } from "./TreeNode.js";
 
 export class AVLTree extends Tree {  
@@ -41,7 +41,7 @@ export class AVLTree extends Tree {
     return y;
   }
 
-  add(value) {
+  insert(value) {
     this.root = this.addRecursive(this.root, value);
     if (this.root) {
       this.root.parent = null;

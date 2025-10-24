@@ -1,4 +1,4 @@
-import { redBlackEnum } from "./enums/redBlackEnum.js";
+import { redBlackEnum } from "../enums/redBlackEnum.js";
 import { TreeNode } from "./TreeNode.js";
 
 export class RBNode extends TreeNode {
