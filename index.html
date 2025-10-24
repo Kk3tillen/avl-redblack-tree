@@ -37,6 +37,9 @@
         }
       };
     </script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/index.js" type="module"></script>
   </head>
 
   <body class="bg-bg-light text-gray-900 font-display min-h-screen flex">
@@ -111,14 +114,6 @@
         </button>
 
         <button
-          id="search-btn"
-          class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
-        >
-          <span class="material-symbols-outlined">search</span>
-          Buscar Nó
-        </button>
-
-        <button
           id="clear-btn"
           class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary border border-border-light hover:bg-primary/10 transition"
         >
@@ -140,15 +135,10 @@
             <span>Níveis: <strong id="levels-count">0</strong></span>
           </div>
         </div>
-        <pre
-          id="tree-display"
-          class="text-sm font-mono text-gray-800 whitespace-pre"
-        >
-Árvore vazia - adicione nós para visualizar</pre
-        >
+        <div class="flex w-full h-full mt-4 items-center justify-center">
+            <svg width="800" height="600"></svg>
+        </div>
       </div>
     </main>
-
-    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
