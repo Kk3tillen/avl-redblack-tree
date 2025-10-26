@@ -93,7 +93,7 @@ Caso prefira rodar o projeto no seu computador:
 
 ---
 
-## 🖥️ Interface e Visualização
+## 🖥️ Interface
 
 A interface apresenta:
 
