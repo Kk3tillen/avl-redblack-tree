@@ -92,6 +92,14 @@ Caso prefira rodar o projeto no seu computador:
 
 ---
 
+## 🎦 Demonstração de funcionamento
+
+
+https://github.com/user-attachments/assets/1689610a-a5ce-4b5b-bfe2-a330f91c7ce0
+
+
+
+
 ## Autores
 
 | [![Kézia Ketillen Santos Lima](https://avatars3.githubusercontent.com/u/88369589?s=100&v=4)](https://github.com/Kk3tillen) | [![Tiago Rodrigues dos Santos](https://avatars.githubusercontent.com/u/70401246?s=100&v=4)](https://github.com/tiago-rodrigues1) |
