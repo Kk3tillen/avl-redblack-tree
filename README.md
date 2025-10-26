@@ -98,4 +98,3 @@ Caso prefira rodar o projeto no seu computador:
 | :---: | :---: |
 | **Kézia Ketillen Santos Lima** | **Tiago Rodrigues dos Santos** |
 
----
