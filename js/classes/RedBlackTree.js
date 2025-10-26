@@ -101,12 +101,15 @@ export class RedBlackTree extends Tree {
     let successorNode = nodeToRemove;
     let childOfRemovedNode;
     let colorOfRemovedNode = nodeToRemove.color;
+    let parentOfChild = null;
 
     if (nodeToRemove.left === null) {
       childOfRemovedNode = nodeToRemove.right;
+      parentOfChild = nodeToRemove.parent;
       this.transplant(nodeToRemove, nodeToRemove.right);
     } else if (nodeToRemove.right === null) {
       childOfRemovedNode = nodeToRemove.left;
+      parentOfChild = nodeToRemove.parent;
       this.transplant(nodeToRemove, nodeToRemove.left);
     } else {
       successorNode = this.findMin(nodeToRemove.right);
@@ -114,10 +117,12 @@ export class RedBlackTree extends Tree {
       childOfRemovedNode = successorNode.right;
 
       if (successorNode.parent === nodeToRemove) {
+        parentOfChild = successorNode;
         if (childOfRemovedNode !== null) {
           childOfRemovedNode.parent = successorNode;
         }
       } else {
+        parentOfChild = successorNode.parent;
         this.transplant(successorNode, successorNode.right);
         successorNode.right = nodeToRemove.right;
         successorNode.right.parent = successorNode;
@@ -130,29 +135,31 @@ export class RedBlackTree extends Tree {
     }
 
     if (colorOfRemovedNode === redBlackEnum.black) {
-      this.afterRemove(childOfRemovedNode);
+      this.afterRemove(childOfRemovedNode, parentOfChild);
     }
   }
 
-  afterRemove(node) {
+  afterRemove(node, parent) {
     while (node !== this.root && this.isNodeBlack(node)) {
-      if (node === null) {
-        break;
-      }
+      const isLeftChild = parent && (node === parent.left || (node === null && parent.left === null));
+      
+      if (isLeftChild) {
+        let brother = parent ? parent.right : null;
 
-      if (node === node.parent.left) {
-        let brother = node.parent.right;
+        if (brother === null) break;
 
+  
         if (this.isNodeRed(brother)) {
           brother.makeBlack();
-          node.parent.makeRed();
-          this.rotateLeft(node.parent);
-          brother = node.parent.right;
+          parent.makeRed();
+          this.rotateLeft(parent);
+          brother = parent.right;
         }
 
         if (this.isNodeBlack(brother.left) && this.isNodeBlack(brother.right)) {
           brother.makeRed();
-          node = node.parent;
+          node = parent;
+          parent = node.parent;
         } else {
           if (this.isNodeBlack(brother.right)) {
             if (brother.left !== null) {
@@ -160,30 +167,34 @@ export class RedBlackTree extends Tree {
             }
             brother.makeRed();
             this.rotateRight(brother);
-            brother = node.parent.right;
+            brother = parent.right;
           }
 
-          brother.color = node.parent.color;
-          node.parent.makeBlack();
+          brother.color = parent.color;
+          parent.makeBlack();
           if (brother.right !== null) {
             brother.right.makeBlack();
           }
-          this.rotateLeft(node.parent);
+          this.rotateLeft(parent);
           node = this.root;
+          break;
         }
       } else {
-        let brother = node.parent.left;
+        let brother = parent ? parent.left : null;
+
+        if (brother === null) break;
 
         if (this.isNodeRed(brother)) {
           brother.makeBlack();
-          node.parent.makeRed();
-          this.rotateRight(node.parent);
-          brother = node.parent.left;
+          parent.makeRed();
+          this.rotateRight(parent);
+          brother = parent.left;
         }
 
         if (this.isNodeBlack(brother.left) && this.isNodeBlack(brother.right)) {
           brother.makeRed();
-          node = node.parent;
+          node = parent;
+          parent = node.parent;
         } else {
           if (this.isNodeBlack(brother.left)) {
             if (brother.right !== null) {
@@ -191,16 +202,17 @@ export class RedBlackTree extends Tree {
             }
             brother.makeRed();
             this.rotateLeft(brother);
-            brother = node.parent.left;
+            brother = parent.left;
           }
 
-          brother.color = node.parent.color;
-          node.parent.makeBlack();
+          brother.color = parent.color;
+          parent.makeBlack();
           if (brother.left !== null) {
             brother.left.makeBlack();
           }
-          this.rotateRight(node.parent);
+          this.rotateRight(parent);
           node = this.root;
+          break;
         }
       }
     }
