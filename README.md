@@ -66,7 +66,6 @@ Acesse diretamente pelo site:
 👉 [**kk3tillen.github.io/avl-redblack-tree/**](https://kk3tillen.github.io/avl-redblack-tree/)
 
 
-
 ### 💻 **Executar Localmente**
 
 Caso prefira rodar o projeto no seu computador:
@@ -93,27 +92,6 @@ Caso prefira rodar o projeto no seu computador:
 
 ---
 
-## 🖥️ Interface
-
-A interface apresenta:
-
-* Seleção do tipo de árvore (AVL ou Rubro-Negra)
-* Campo para inserir valores
-* Botões:
-
-  * ➕ **Adicionar**
-  * 🔍 **Buscar**
-  * 🗑️ **Remover**
-  * ♻️ **Limpar**
-
-Além disso, são exibidas estatísticas:
-
-* Tipo atual da árvore
-* Número total de nós
-* Altura (níveis)
-
----
-
 ## Autores
 
 | [![Kézia Ketillen Santos Lima](https://avatars3.githubusercontent.com/u/88369589?s=100&v=4)](https://github.com/Kk3tillen) | [![Tiago Rodrigues dos Santos](https://avatars.githubusercontent.com/u/70401246?s=100&v=4)](https://github.com/tiago-rodrigues1) |
@@ -121,7 +99,3 @@ Além disso, são exibidas estatísticas:
 | **Kézia Ketillen Santos Lima** | **Tiago Rodrigues dos Santos** |
 
 ---
-
-## 📄 Licença
-
-Este projeto é de uso educacional e está licenciado sob a [MIT License](LICENSE).
