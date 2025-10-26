@@ -1,6 +1,6 @@
 # 🌳 Visualizador de Árvores AVL e Rubro-Negra
 
-Este desenvolvido para a disciplina de Estruturas de Dados Básicas II, implementa duas das principais estruturas de dados auto-balanceadas — **Árvore AVL** e **Árvore Rubro-Negra** — utilizando **JavaScript**, com visualização interativa através da biblioteca **D3.js**.
+Este projeto desenvolvido para a disciplina de Estruturas de Dados Básicas II, implementa duas das principais estruturas de dados auto-balanceadas — **Árvore AVL** e **Árvore Rubro-Negra** — utilizando **JavaScript**, com visualização interativa através da biblioteca **D3.js**.
 O objetivo é permitir a compreensão prática do comportamento e balanceamento dessas estruturas em tempo real.
 
 ---
